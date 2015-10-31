@@ -17,9 +17,9 @@ MySQL Database can be created with the following:
 
 CREATE TABLE IF NOT EXISTS `uc_contact` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userid` int(11) NOT NULL,
-  `title` varchar(120) NOT NULL,
-  `message` text NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `con_title` varchar(120) NOT NULL,
+  `con_content` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 ````
