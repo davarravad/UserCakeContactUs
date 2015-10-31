@@ -26,3 +26,5 @@ CREATE TABLE IF NOT EXISTS `uc_contact` (
 ````
 
 Note: Make sure to update the database prefix if it differs from uc_
+
+I included admin_contact.php for those who want the contact requests display page seperate from the contact.php.  
