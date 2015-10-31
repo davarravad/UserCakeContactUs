@@ -103,28 +103,46 @@ if(isUserLoggedIn()){
 		// Gather information to send to database
 		if(isset($_POST['con_title'])){ $con_title = $_POST['con_title']; }else{ $con_title = ""; }
 		if(isset($_POST['con_content'])){ $con_content = $_POST['con_content']; }else{ $con_content = ""; }
-		// Format the text box for database
-		$con_title = htmlspecialchars(strip_tags(addslashes($con_title)));
-		// Format the text area for database
-		$con_content = htmlspecialchars(addslashes($con_content));
-		// Ready the user's id
-		$user_id = $loggedInUser->user_id;
-		// Submit information to database
-		global $mysqli, $db_table_prefix;
-		$stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."contact(user_id, con_title, con_content) VALUES (?, ?, ?)");
-		$stmt->bind_param("iss", $user_id, $con_title, $con_content);
-		$stmt->execute();
-		$stmt->close();	
-		// Redirect member back to contact page and show success message
-		$redir_link_url = "contact.php?success=true";
-		header("Location: $redir_link_url");
-		exit;
+		// Check to make sure the form is filled out, otherwise send the user back
+		if(empty($con_title) || empty($con_content)){
+			echo "<div align='center'>";
+				echo "<h2><font color='red'>";
+					// Display Error Message
+					echo "Please Go Back and complete all fields in form.";
+					echo "<form enctype=\"multipart/form-data\" action=\"\" method=\"POST\" onsubmit=\"submitmystat.disabled = true; return true;\" >";
+						echo "<input type=\"hidden\" name=\"con_title\" value=\"$con_title\" />";
+						echo "<input type=\"hidden\" name=\"con_content\" value=\"$con_content\" />";
+						echo "<input type=\"submit\" value=\"Go Back\" name=\"goback\" class=\"\" onClick=\"this.value = 'Please Wait....'\" />";
+					echo "</form>";
+				echo "</font></h2>";
+			echo "</div>";
+		}else{
+			// Format the text box for database
+			$con_title = htmlspecialchars(strip_tags(addslashes($con_title)));
+			// Format the text area for database
+			$con_content = htmlspecialchars(addslashes($con_content));
+			// Ready the user's id
+			$user_id = $loggedInUser->user_id;
+			// Submit information to database
+			global $mysqli, $db_table_prefix;
+			$stmt = $mysqli->prepare("INSERT INTO ".$db_table_prefix."contact(user_id, con_title, con_content) VALUES (?, ?, ?)");
+			$stmt->bind_param("iss", $user_id, $con_title, $con_content);
+			$stmt->execute();
+			$stmt->close();	
+			// Redirect member back to contact page and show success message
+			$redir_link_url = "contact.php?success=true";
+			header("Location: $redir_link_url");
+			exit;
+		}
 	}else{
 		// Display basic title of page
 		echo "<div align='center'>";
 			echo "Welcome to the Contact Us Form.  Please fill it out completely.";
 		echo "</div>";
-		
+		// Check to see if member had to try again with go back button
+		// Gather information from user's original attempt
+		if(isset($_POST['con_title'])){ $con_title = $_POST['con_title']; }else{ $con_title = ""; }
+		if(isset($_POST['con_content'])){ $con_content = $_POST['con_content']; }else{ $con_content = ""; }
 		// Display contact form
 		echo "<div align='center'>";
 			// Start the form
@@ -133,11 +151,11 @@ if(isUserLoggedIn()){
 				echo "<table width='80%'><tr><td width='100px'>";
 					echo "Title";
 				echo "</td><td>";
-					echo "<input name=\"con_title\" type=\"text\" value=\"\" style='width:100%;'>";
+					echo "<input name=\"con_title\" type=\"text\" value=\"$con_title\" style='width:100%;'>";
 				echo "</td></tr><tr><td>";
 					echo "Message";
 				echo "</td><td>";
-					echo "<textarea style='width:100%;height:200px;' name='con_content' id='con_content'></textarea>";
+					echo "<textarea style='width:100%;height:200px;' name='con_content' id='con_content'>$con_content</textarea>";
 				echo "</td></tr><tr><td colspan='2' align='center'>";
 					echo "<input type=\"submit\" value=\"Submit Form\" name=\"submitcontactus\" class=\"\" onClick=\"this.value = 'Please Wait....'\" />";
 				echo "</td></tr></table>";
