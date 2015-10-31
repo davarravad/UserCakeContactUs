@@ -1,7 +1,7 @@
 # UserCakeContactUs
 Simple Contact Us Script for UserCake 2.0.2
 
-The Contact Us Script allows visitors and members to submit contact request.  
+The Contact Us Script allows members to submit contact request.  
 Administrators can also view all the submitted content.  
 
 Visitors can supply the following information:
