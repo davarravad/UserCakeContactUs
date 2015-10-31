@@ -20,8 +20,9 @@ CREATE TABLE IF NOT EXISTS `uc_contact` (
   `user_id` int(11) NOT NULL,
   `con_title` varchar(120) NOT NULL,
   `con_content` text NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 ````
 
 Note: Make sure to update the database prefix if it differs from uc_
